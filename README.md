@@ -1,78 +1,86 @@
 # Minion meets pfSense
 
-## Build the packages
+## Requirements
 
-Build from source, or skip to the next step to use the existing binaries.
+pfSense 2.3-RELEASE (tested on a Netgate SG-2220 w/ 60GB SSD)
 
-Tested with a 64-bit images of FreeBSD 10.2 on Digital Ocean.
+## Setup
+
+> See BUILDING.md for compiling the packages from source.
+
+Add the package repository, by creating `/usr/local/etc/pkg/repos/minion.conf` with:
+
+```
+minion: {
+    url: "http://162.243.237.148/packages/freebsd_10-3x64-RELENG_2_3_0_MINION/",
+    mirror_type: "http",
+    signature_type: "pubkey",
+    pubkey: "/usr/local/etc/ssl/bsdizzle.cert",
+    enabled: yes
+}
+```
+
+And create `/usr/local/etc/ssl/bsdizzle.cert` with:
+```
+-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA5o3mfB6hq4f88XsSKbBk
+rEMVbH3wxhad75vkM5XYFhROFZ2rfbBy6ComOSScHjrWOHcGKvFkxBhJ1yOl3H1F
+c3sxbdV7WFwBRdCWAMAS4QkCjBCrzMNRToO8jyDecKa/3/uKTfFNABmT4oOFgpg9
+bY53LdYppOdDBM3RYk+yvJTS8aYpGLtNc7s4eIvfiTHXs4jmBBsB/86xwKjiv8vj
+/ACD+1R2BiG1Spr7tx6c0eLdID8+l6/rFLXUS+L3T/SRL7uBIGoi6dsJiF8MvO7B
+yrq+Ib4Bd6OD6zVe/ZtkPKwuGflqpCc+FFVVTUnxCoKURF3+TAMYcwi3pstVb4uK
+uPd71MLxmVTHSTXT9sz+5Yj8UJBi14JSUYLHgCAFm/secD//+m5p9KkY+JRFaVi0
+a78Aqtpah/kCyzJ5JQhlFGiyJkkuqV3qZ8lFe3qoiApSBh83A+5hytQ16EBc4dG1
+L0bJSiOL8Lgsrrm0S2rXDU1hxuYI+bXErj9m9dGae3NSBbRHvUaQ0T0LuoFqysU8
+XE6d9fHqbU+lSwCfyDooAEJMetAg1kydUSF0mwYT0uHOhiS84Fzi+x9yaFvZ/kJ/
+hlmXHYAC0CO9GkW6xMP7O2s2nXwRmVujYnHIgVcI4CLb8VmIBhc4pRXbd1BdT+Jn
+aooXOf9gbfMD08srpbNq3FsCAwEAAQ==
+-----END PUBLIC KEY-----
+```
+
+Update the package repository:
 
 ```sh
-$ pkg install git
-$ git clone git@github.com:j-white/FreeBSD-ports.git pfSense-ports
-$ cd pfSense-ports/net/pfSense-pkg-minion/
-$ sudo pkg install openjdk8
-$ sudo make package
+pkg update
 ```
 
-## Minion Setup
 
-Tested with pfSense v2.2.6 on a Netgate SG-2220 w/ 60GB SSD
+Install the Minion package using the Web UI, or directly in the command line using:
 
-Fetch and install the package:
-
-```sh
-cd /tmp
-fetch http://104.236.215.163/packages/pfSense-pkg-minion-1.0.0.txz
-pkg install pfSense-pkg-minion-1.0.0.txz
+```
+pkg install pfSense-pkg-minion
 ```
 
-Add the following snippets to the `<installedpackages>` tag in `/conf/config.xml`:
+## Configure your Minion
 
-```xml
-<minion>
-  <config>
-    <enable>on</enable>
-    <httpurl>http://opennms/opennms</httpurl>
-    <brokerurl>tcp://opennms:61616</brokerurl>
-    <location>HOME</location>
-  </config>
-</minion>
-```
+Once the package has been installed, you can access the **Minion** option in **Services** menu to configure the service.
 
-```xml
-<menu>
-  <name>Minion</name>
-  <section>Services</section>
-  <url>/pkg_edit.php?xml=minion.xml</url>
-</menu>
-```
+Enable the service, and point it to your OpenNMS instance:
 
-```xml
-<service>
-  <name>minion</name>
-  <rcfile>minion-daemon.sh</rcfile>
-  <executable>minion-daemon</executable>
-  <description><![CDATA[Minion]]></description>
-</service>
-```
+| Field      | Example value               |
+| -----------|:---------------------------:|
+| HTTP URL   | http://opennms:8980/opennms |
+| Broker URL | tcp://opennms:61616         |
+| Location   | HOME                        |
 
-Delete the configuration file cache:
+### Configure the credentials
 
-```sh
-rm -f /tmp/config.cache
-```
-
-Refresh the WebUI, access `Services -> Minion` and hit `Save`.
-
-## Verify your Minion
-
-From the pfSense shell, verify that the Karaf shell is accessible:
+The server cannot currently be set using the UI, instead you need to login to the Karaf shell from the pfSense shell using:
 
 ```sh
 ssh -oPort=8201 admin@localhost
 ```
 
-From the Karaf shell, verify that the backend is reachable:
+and set the credentials using:
+
+```sh
+scv:set opennms.http admin admin
+scv:set opennms.broker admin admin
+```
+
+## Verify your Minion
+
+From the Karaf shell (see above for connecting), verify that the backend is reachable:
 
 ```sh
 admin@minion>minion:ping
@@ -82,7 +90,7 @@ Now reboot the appliance, and verify that the service is restarted on reboot, an
 
 Congratulations, you're ready to go.
 
-## Know Issues
+## Known Issues
 
-* Karaf shell SSH key changes on restart
+* Credentials can't be configured from the UI
 * Status -> Services doesn't show the status for the Minion service or allow you to restart it
