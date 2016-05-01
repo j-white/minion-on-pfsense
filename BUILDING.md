@@ -18,9 +18,11 @@ sudo freebsd-update install
 sudo reboot
 ```
 
+Also, if you're using a droplet with less than 4G of RAM, you'll likely want to add a [swap file](https://www.freebsd.org/doc/handbook/adding-swap-space.html).
+
 ## Poudriere Setup
 
-> This instruction are based [How To Set Up a Poudriere Build System to Create Packages for your FreeBSD Servers](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-poudriere-build-system-to-create-packages-for-your-freebsd-servers)
+> These instruction are based [How To Set Up a Poudriere Build System to Create Packages for your FreeBSD Servers](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-poudriere-build-system-to-create-packages-for-your-freebsd-servers)
 
 ### Install Poudriere and Nginx
 
@@ -117,7 +119,7 @@ sudo mkdir /usr/local/etc/poudriere.d/freebsd_10-3x64-options
 sudo poudriere options -j freebsd_10-3x64 -p RELENG_2_3_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
-### Build the ports
+### Build (or rebuild) the ports
 
 ```sh
 sudo poudriere jail -u -j freebsd_10-3x64
@@ -127,7 +129,9 @@ sudo mkdir -p /usr/ports/distfiles
 sudo poudriere bulk -j freebsd_10-3x64 -p RELENG_2_3_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
-## Manually building the packages
+## Miscellaneous Notes
+
+### Manually building the packages
 
 If all of the dependencies are already available on the target system, you can skip the Poudriere setup and manually build the packages using:
 
@@ -144,4 +148,13 @@ And install the package on the target system using:
 ```sh
 fetch http://104.236.215.163/pfSense-pkg-minion-1.0.0.txz
 pkg install pfSense-pkg-minion-1.0.0.txz
+```
+
+### Entering the jail
+
+```sh
+
+sudo poudriere jail -s -j freebsd_10-3x64 -p RELENG_2_3_0_MINION
+jls
+sudo sudo jexec $JID /bin/sh
 ```

@@ -6,7 +6,7 @@ pfSense 2.3-RELEASE (tested on a Netgate SG-2220 w/ 60GB SSD)
 
 ## Setup
 
-> See BUILDING.md for compiling the packages from source.
+> The following instructions require access to the pfSense shell.
 
 Add the package repository, by creating `/usr/local/etc/pkg/repos/minion.conf` with:
 
@@ -20,7 +20,7 @@ minion: {
 }
 ```
 
-And create `/usr/local/etc/ssl/bsdizzle.cert` with:
+Create `/usr/local/etc/ssl/bsdizzle.cert` with:
 ```
 -----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA5o3mfB6hq4f88XsSKbBk
@@ -71,7 +71,9 @@ The server cannot currently be set using the UI, instead you need to login to th
 ssh -oPort=8201 admin@localhost
 ```
 
-and set the credentials using:
+> The default username and password to the Karaf shell is admin/admin
+
+In the Karaf shell, set the credentials using:
 
 ```sh
 scv:set opennms.http admin admin
@@ -80,10 +82,21 @@ scv:set opennms.broker admin admin
 
 ## Verify your Minion
 
-From the Karaf shell (see above for connecting), verify that the backend is reachable:
+From the Karaf shell (see above for connecting), verify that the backend is reachable by running:
+
+```sh
+minion:ping
+```
+
+If communication was successful, you should see output similar to:
 
 ```sh
 admin@minion>minion:ping
+Connecting to ReST...
+OK
+Connecting to Broker...
+OK
+admin@minion>
 ```
 
 Now reboot the appliance, and verify that the service is restarted on reboot, and that all of the checks above still pass.
@@ -92,5 +105,5 @@ Congratulations, you're ready to go.
 
 ## Known Issues
 
-* Credentials can't be configured from the UI
-* Status -> Services doesn't show the status for the Minion service or allow you to restart it
+* Credentials for communicating with OpenNMS can't be configured from the UI
+* In certain cases, there can be many copies of the Minion container running simultaneously, restart the service to fix this.
