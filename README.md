@@ -12,7 +12,7 @@ Add the package repository, by creating `/usr/local/etc/pkg/repos/minion.conf` w
 
 ```
 minion: {
-    url: "http://162.243.237.148/packages/freebsd_10-3x64-RELENG_2_3_0_MINION/",
+    url: "http://bsdizzle.opennms.org/packages/freebsd_10-3x64-RELENG_2_3_0_MINION/",
     mirror_type: "http",
     signature_type: "pubkey",
     pubkey: "/usr/local/etc/ssl/bsdizzle.cert",
