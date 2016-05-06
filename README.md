@@ -103,7 +103,29 @@ Now reboot the appliance, and verify that the service is restarted on reboot, an
 
 Congratulations, you're ready to go.
 
+## Configuring Syslog
+
+By default, the Syslog listener in the Minion container will listen on port 1514.
+
+### Accept messages from other devices
+
+To accept Syslog messages on port 514, you can setup a NAT rule that looks like:
+
+![](screenshots/syslog_nat_rule.png)
+
+### Forward messages from the pfSense appliance
+
+If you're interested in monitoring the pfSense appliance, you can forward its log message to the Minion.
+
+Navigate to `Status -> System Logs -> Settings`
+
+Check `Send log messages to remote syslog server`
+
+Enter `127.0.0.1:1514` as a `Remote Log Server`.
+
 ## Known Issues
 
 * Credentials for communicating with OpenNMS can't be configured from the UI
 * In certain cases, there can be many copies of the Minion container running simultaneously, restart the service to fix this.
+* Minion fails to stop on reboot with ``` Stopping package minion...```
+* The packages should be relocated under the `net-mgmt` tree instead of `net`
