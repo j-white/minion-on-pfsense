@@ -1,5 +1,9 @@
 # Updating the Minion port
 
+```sh
+cd ~/FreeBSD-ports/net/opennms-minion
+```
+
 Remove the current checksum file:
 
 ```sh
