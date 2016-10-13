@@ -126,8 +126,6 @@ Enter `127.0.0.1:1514` as a `Remote Log Server`.
 ## Known Issues
 
 * Credentials for communicating with OpenNMS can't be configured from the UI
-* In certain cases, there can be many copies of the Minion container running simultaneously, restart the service to fix this.
-* Minion fails to stop on reboot with ``` Stopping package minion...```
 * The packages should be relocated under the `net-mgmt` tree instead of `net`
 * The .local repository should be deleted after uninstall / on upgrade
 
