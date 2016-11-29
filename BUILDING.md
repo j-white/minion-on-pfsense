@@ -97,7 +97,7 @@ sudo poudriere jail -c -j freebsd_10-3x64 -v 10.3-RELEASE
 ### Create the ports tree
 
 ```sh
-sudo poudriere ports -v -c -m git -B RELENG_2_3_0_MINION -p RELENG_2_3_0_MINION
+sudo poudriere ports -v -c -m git -B RELENG_2_3_2_MINION -p RELENG_2_3_2_MINION
 ```
 
 ### Configure the ports
@@ -116,17 +116,17 @@ Configure the port options:
 
 ```sh
 sudo mkdir /usr/local/etc/poudriere.d/freebsd_10-3x64-options
-sudo poudriere options -j freebsd_10-3x64 -p RELENG_2_3_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
+sudo poudriere options -j freebsd_10-3x64 -p RELENG_2_3_2_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
 ### Build (or rebuild) the ports
 
 ```sh
 sudo poudriere jail -u -j freebsd_10-3x64
-sudo poudriere ports -u -p RELENG_2_3_0_MINION
+sudo poudriere ports -u -p RELENG_2_3_2_MINION
 screen
 sudo mkdir -p /usr/ports/distfiles
-sudo poudriere bulk -j freebsd_10-3x64 -p RELENG_2_3_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
+sudo poudriere bulk -j freebsd_10-3x64 -p RELENG_2_3_2_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
 ## Miscellaneous Notes
@@ -154,7 +154,7 @@ pkg install pfSense-pkg-minion-1.0.0.txz
 
 ```sh
 
-sudo poudriere jail -s -j freebsd_10-3x64 -p RELENG_2_3_0_MINION
+sudo poudriere jail -s -j freebsd_10-3x64 -p RELENG_2_3_2_MINION
 jls
 sudo sudo jexec $JID /bin/sh
 ```
