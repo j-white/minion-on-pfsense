@@ -68,7 +68,7 @@ Enable the service, and point it to your OpenNMS instance:
 The server cannot currently be set using the UI, instead you need to login to the Karaf shell from the pfSense shell using:
 
 ```sh
-ssh -oPort=8201 admin@localhost
+ssh -oPort=8201 admin@127.0.0.1
 ```
 
 > The default username and password to the Karaf shell is admin/admin
@@ -76,9 +76,11 @@ ssh -oPort=8201 admin@localhost
 In the Karaf shell, set the credentials using:
 
 ```sh
-scv:set opennms.http admin admin
-scv:set opennms.broker admin admin
+scv:set opennms.http minion minion
+scv:set opennms.broker minion minion
 ```
+
+Restart the service after setting the credentials.
 
 ## Verify your Minion
 
@@ -128,4 +130,13 @@ Enter `127.0.0.1:1514` as a `Remote Log Server`.
 * Credentials for communicating with OpenNMS can't be configured from the UI
 * The packages should be relocated under the `net-mgmt` tree instead of `net`
 * The .local repository should be deleted after uninstall / on upgrade
+
+
+## SSL
+
+Add your certifcate chain to the default trust store using:
+
+```sh
+/usr/local/openjdk8/bin/keytool -trustcacerts -keystore /usr/local/openjdk8/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file chain.pem
+```
 
