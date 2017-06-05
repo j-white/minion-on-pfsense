@@ -2,7 +2,7 @@
 
 ## Requirements
 
-pfSense 2.3-RELEASE (tested on a Netgate SG-2220 w/ 60GB SSD)
+pfSense 2.3.4-RELEASE (tested on a Netgate SG-2220 w/ 60GB SSD)
 
 ## Setup
 
@@ -12,7 +12,7 @@ Add the package repository, by creating `/usr/local/etc/pkg/repos/minion.conf` w
 
 ```
 minion: {
-    url: "http://bsdizzle.opennms.org/packages/freebsd_10-3x64-RELENG_2_3_2_MINION/",
+    url: "http://bsdizzle.opennms.org/packages/freebsd_10-3x64-RELENG_2_3_4_MINION/",
     mirror_type: "http",
     signature_type: "pubkey",
     pubkey: "/usr/local/etc/ssl/bsdizzle.cert",
