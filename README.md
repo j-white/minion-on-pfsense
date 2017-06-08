@@ -57,15 +57,21 @@ Once the package has been installed, you can access the **Minion** option in **S
 
 Enable the service, and point it to your OpenNMS instance:
 
-| Field      | Example value               |
-| -----------|:---------------------------:|
-| HTTP URL   | http://opennms:8980/opennms |
-| Broker URL | tcp://opennms:61616         |
-| Location   | HOME                        |
+| Field      | Example value                 |
+| -----------|:-----------------------------:|
+| HTTP URL   | http://opennms:8980/opennms   |
+| Broker URL | failover:tcp://opennms:61616  |
+| Location   | HOME                          |
 
-### Configure the credentials
+Enter the username and password for an existing user assocated with the MINION role.
 
-The server cannot currently be set using the UI, instead you need to login to the Karaf shell from the pfSense shell using:
+Save the configuration.
+
+Navigate to to **Services** under the **Status** menu and start the Minion service.
+
+## Verify your Minion
+
+Login to the Karaf shell from the pfSense shell using:
 
 ```sh
 ssh -oPort=8201 admin@127.0.0.1
@@ -73,18 +79,8 @@ ssh -oPort=8201 admin@127.0.0.1
 
 > The default username and password to the Karaf shell is admin/admin
 
-In the Karaf shell, set the credentials using:
 
-```sh
-scv:set opennms.http minion minion
-scv:set opennms.broker minion minion
-```
-
-Restart the service after setting the credentials.
-
-## Verify your Minion
-
-From the Karaf shell (see above for connecting), verify that the backend is reachable by running:
+Verify that the backend is reachable by running:
 
 ```sh
 minion:ping
@@ -127,9 +123,7 @@ Enter `127.0.0.1:1514` as a `Remote Log Server`.
 
 ## Known Issues
 
-* Credentials for communicating with OpenNMS can't be configured from the UI
 * The packages should be relocated under the `net-mgmt` tree instead of `net`
-* The .local repository should be deleted after uninstall / on upgrade
 
 
 ## SSL
