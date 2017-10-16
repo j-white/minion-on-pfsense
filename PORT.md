@@ -35,11 +35,17 @@ Trigger a new build. See [BUILDING](BUILDING.md) for details.
 
 # Moving to a new branch
 
+
 ```sh
-git rebase -i upstream/RELENG_2_3_2
+git fetch upstream
+git checkout RELENG_2_3_4_MINION
+git rebase -i upstream/RELENG_2_3_4
 git push -f
-git checkout -b RELENG_2_3_3_MINION upstream/RELENG_2_3_3
-git cherry-pick adde84279e1736e1fa4d430f7cae38fb443e9202
-git push -u origin RELENG_2_3_3_MINION
+git log
 ```
 
+```sh
+git checkout -b RELENG_2_4_0_MINION upstream/RELENG_2_4_0
+git cherry-pick e5fd09cf4b179ddcd84cd5e57a8870965211ad94
+git push -u origin RELENG_2_4_0_MINION
+```

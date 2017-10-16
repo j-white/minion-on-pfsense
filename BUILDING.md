@@ -4,14 +4,14 @@ These instructions will guide you in setting up a [Poudriere](https://www.freebs
 
 ## Requirements
 
-* An instance of FreeBSD 10.3-RELEASE x64
+* An instance of FreeBSD 11.1-RELEASE x64
 
 ### Droplet setup
 
-DigitalOcean does not currently provide any droplets running 10.3, but you can upgrade a 10.2 droplet to 10.3 with:
+To upgrade a droplet running an earlier version of FreeBSD, you can use:
 
 ```sh
-sudo freebsd-update -r 10.3-RELEASE upgrade
+sudo freebsd-update -r 11.1-RELEASE upgrade
 sudo freebsd-update install
 sudo reboot
 sudo freebsd-update install
@@ -92,12 +92,12 @@ sudo service nginx start
 ### Create the jail
 
 ```sh
-sudo poudriere jail -c -j freebsd_10-3x64 -v 10.3-RELEASE
+sudo poudriere jail -c -j freebsd_11-1x64 -v 11.1-RELEASE
 ```
 ### Create the ports tree
 
 ```sh
-sudo poudriere ports -v -c -m git -B RELENG_2_3_4_MINION -p RELENG_2_3_4_MINION
+sudo poudriere ports -v -c -m git -B RELENG_2_4_0_MINION -p RELENG_2_4_0_MINION
 ```
 
 ### Configure the ports
@@ -114,24 +114,24 @@ sudo sh -c "echo 'lang/go' >> /usr/local/etc/poudriere.d/pfSense-minion-packages
 
 Set some global options:
 ```
-sudo sh -c "echo 'OPTIONS_UNSET+= DOCS NLS X11 EXAMPLES' >> /usr/local/etc/poudriere.d/freebsd_10-3x64-make.conf"
+sudo sh -c "echo 'OPTIONS_UNSET+= DOCS NLS X11 EXAMPLES' >> /usr/local/etc/poudriere.d/freebsd_11-1x64-make.conf"
 ```
 
 Configure the port options:
 
 ```sh
-sudo mkdir /usr/local/etc/poudriere.d/freebsd_10-3x64-options
-sudo poudriere options -j freebsd_10-3x64 -p RELENG_2_3_4_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
+sudo mkdir /usr/local/etc/poudriere.d/freebsd_11-1x64-options
+sudo poudriere options -j freebsd_11-1x64 -p RELENG_2_4_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
 ### Build (or rebuild) the ports
 
 ```sh
-sudo poudriere jail -u -j freebsd_10-3x64
-sudo poudriere ports -u -p RELENG_2_3_4_MINION
+sudo poudriere jail -u -j freebsd_11-1x64
+sudo poudriere ports -u -p RELENG_2_4_0_MINION
 screen
 sudo mkdir -p /usr/ports/distfiles
-sudo poudriere bulk -j freebsd_10-3x64 -p RELENG_2_3_4_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
+sudo poudriere bulk -j freebsd_11-1x64 -p RELENG_2_4_0_MINION -f /usr/local/etc/poudriere.d/pfSense-minion-packages-list
 ```
 
 ## Miscellaneous Notes
@@ -159,7 +159,8 @@ pkg install pfSense-pkg-minion-1.0.0.txz
 
 ```sh
 
-sudo poudriere jail -s -j freebsd_10-3x64 -p RELENG_2_3_4_MINION
+sudo poudriere jail -s -j freebsd_11-1x64 -p RELENG_2_4_0_MINION
 jls
 sudo sudo jexec $JID /bin/sh
 ```
+
