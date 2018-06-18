@@ -12,29 +12,29 @@ Add the package repository, by creating `/usr/local/etc/pkg/repos/minion.conf` w
 
 ```
 minion: {
-    url: "http://minionrepo.opennms.com/packages/freebsd_11-1x64-RELENG_2_4_0_MINION/",
+    url: "http://bsdizzle.opennms.org/packages/freebsd_11-1x64-RELENG_2_4_0_MINION/",
     mirror_type: "http",
     signature_type: "pubkey",
-    pubkey: "/usr/local/etc/ssl/minionrepo.cert",
+    pubkey: "/usr/local/etc/ssl/bsdizzle.cert",
     enabled: yes
 }
 ```
 
-Create `/usr/local/etc/ssl/minionrepo.cert` with:
+Create `/usr/local/etc/ssl/bsdizzle.cert` with:
 ```
 -----BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAn7e908vM9PK7vIkeiaZO
-FphFUFYUv/Ozv3luZzJv6e8MtApRs1JrtOP3UFVhaIjKdxOiBeFOgymabLqBNhFd
-Iz4SLO0nyKxATltwyLrF+lqDzr8rvZBOmKuEvk6ij4WWbMCvRK8+1gxAHlg75HTb
-ARQ3uiQw8rATJcaFL7tHJmNWFRod7I3+NbHF/0gXnsZoWhbX9tlU6lFMFpplsO1O
-QXt9iq/ygS6yQ3YjQhaiKYl2CVY5xowdHQyBZy0p9IGz5CF3LzNmZ5Xtya+poVv7
-Ylg5J7kHJaMcVcmhaRIIV7859y3RIa4UORXE37wO+iCVaYTh2CPz72QurMWNNOke
-ltXS9FShcYWeRhbBu/r481D79bwfaLLGNXN07QS64x+GBNs3lyVFm+Sk00vWso4k
-JDOJk3Ap3Xp3hPl7UH+eitgkwvRMICLlqrVCbDbjzxmpCx/H6XNAHcaWUquxdLxC
-c0/uSqBaGay6ZtuERixj0b1RP3xGZ9rqskVntmrbkwI1SC0oxxRMQBvstgDbL8pZ
-lgVvDVY/3WhsuWfizdpsVmxsf0V8DjNVsTXbNSCO0rK5o3QI0go4dMLTVzVhHfX7
-c0R7R/k+YdEzWkBJPbi7a1dx8MkvPNK0bfhUPC+ocjPY8srtgrn6QTNoCtW97h/6
-bnvp7RibR+H08f4lSZV0b0cCAwEAAQ==
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA5o3mfB6hq4f88XsSKbBk
+rEMVbH3wxhad75vkM5XYFhROFZ2rfbBy6ComOSScHjrWOHcGKvFkxBhJ1yOl3H1F
+c3sxbdV7WFwBRdCWAMAS4QkCjBCrzMNRToO8jyDecKa/3/uKTfFNABmT4oOFgpg9
+bY53LdYppOdDBM3RYk+yvJTS8aYpGLtNc7s4eIvfiTHXs4jmBBsB/86xwKjiv8vj
+/ACD+1R2BiG1Spr7tx6c0eLdID8+l6/rFLXUS+L3T/SRL7uBIGoi6dsJiF8MvO7B
+yrq+Ib4Bd6OD6zVe/ZtkPKwuGflqpCc+FFVVTUnxCoKURF3+TAMYcwi3pstVb4uK
+uPd71MLxmVTHSTXT9sz+5Yj8UJBi14JSUYLHgCAFm/secD//+m5p9KkY+JRFaVi0
+a78Aqtpah/kCyzJ5JQhlFGiyJkkuqV3qZ8lFe3qoiApSBh83A+5hytQ16EBc4dG1
+L0bJSiOL8Lgsrrm0S2rXDU1hxuYI+bXErj9m9dGae3NSBbRHvUaQ0T0LuoFqysU8
+XE6d9fHqbU+lSwCfyDooAEJMetAg1kydUSF0mwYT0uHOhiS84Fzi+x9yaFvZ/kJ/
+hlmXHYAC0CO9GkW6xMP7O2s2nXwRmVujYnHIgVcI4CLb8VmIBhc4pRXbd1BdT+Jn
+aooXOf9gbfMD08srpbNq3FsCAwEAAQ==
 -----END PUBLIC KEY-----
 ```
 
